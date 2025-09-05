@@ -19,6 +19,13 @@ describe('constructor', () => {
     map.forEach(row => {
       expect(row.length).toEqual(4);
     });
+
+    // Spot checking
+    expect(map[0][0]).toEqual(Zone.O);
+    expect(map[1][1]).toEqual(Zone.O);
+    expect(map[2][2]).toEqual(Zone.AE);
+    expect(map[3][3]).toEqual(Zone.AE);
+    expect(map[4][3]).toEqual(Zone.AE);
   })
 
   it('should create a map with only two floodZones', () => {
@@ -31,7 +38,7 @@ describe('constructor', () => {
     }
 
      const floodZoneTwo : FloodZone = {
-      zone: Zone.AE,
+      zone: Zone.VE,
       leftBound: 3,
       rightBound: 4,
       topBound: 2,
@@ -47,5 +54,12 @@ describe('constructor', () => {
     map.forEach(row => {
       expect(row.length).toEqual(4);
     });
+
+    // Spot checking
+    expect(map[0][0]).toEqual(Zone.O);
+    expect(map[1][1]).toEqual(Zone.AE);
+    expect(map[2][2]).toEqual(Zone.O);
+    expect(map[0][3]).toEqual(Zone.VE);
+    expect(map[2][3]).toEqual(Zone.O);
   })
 })
