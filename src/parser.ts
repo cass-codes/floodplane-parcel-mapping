@@ -11,26 +11,22 @@ export default class FloodzoneFileParser {
   private parcels: Parcel[] = [];
 
   constructor(private filePath: string) {
-    // Step 1. Find and Read the file - go line by line
     const content: string = fs.readFileSync(filePath, 'utf-8');
     const lines: string[] = content.split(/\r?\n/);
 
-    // Step 2. Parse each line
     lines.forEach((line) => {
-      // Step 2.1. Break up line by spaces
       const components = line.split(" ");
-      // Step 2.3. With first space, determine if it's a floodzone or a parcel
-      if (components[0] === "FLOODZONE") {
+      if (components[ 0 ] === "FLOODZONE") {
         this.floodZones.push(this.parseFloodZone(components))
-      } else if (components[0] === "PARCEL") {
+      } else if (components[ 0 ] === "PARCEL") {
         this.parcels.push(this.parseParcel(components))
-     } else {
-        console.error("Unknown line in file starting with", components[0])
+      } else {
+        console.error("Unknown line in file starting with", components[ 0 ])
       }
     })
   }
 
-  getFloodZones() : FloodZone[] {
+  getFloodZones(): FloodZone[] {
     return this.floodZones;
   }
 
@@ -39,11 +35,11 @@ export default class FloodzoneFileParser {
   }
 
   private parseFloodZone(components: string[]): FloodZone {
-    if (components.length < 6) {
+    if (components.length !== 6) {
       throw new Error("Formatted incorrectly")
     }
     let zone;
-    switch(components[1]) {
+    switch (components[ 1 ]) {
       case "VE":
         zone = Zone.VE;
         break;
@@ -72,27 +68,23 @@ export default class FloodzoneFileParser {
     const bounds = this.parseBoundaries(components.splice(2));
     return {
       ...bounds,
-      id: components[1] || '',
+      id: components[ 1 ] || '',
     }
   }
 
   private parseBoundaries(gridComponents: string[]): BoundEntity {
-    const xs: string[]= [];
-    const ys: string[] = []
+    const xs: number[] = [];
+    const ys: number[] = [];
     gridComponents.forEach((xy) => {
-      const [x, y] = xy.split(",");
-      // @ts-expect-error TODO come back and fix these typescript errors
-      xs.push(x);
-      // @ts-expect-error TODO come back and fix these typescript errors - parsing is hard
-      ys.push(y);
+      const [ x, y ] = xy.split(",");
+      xs.push(Number(x));
+      ys.push(Number(y));
     });
-    const orderedXs = xs.sort();
-    const orderedYs = ys.sort();
     return {
-      leftBound: Number(orderedXs[0]),
-      rightBound: Number(orderedXs[orderedXs.length - 1]),
-      topBound: Number(orderedYs[0]),
-      bottomBound: Number(orderedYs[orderedYs.length - 1]),
+      leftBound: Math.min(...xs),
+      rightBound: Math.max(...xs),
+      topBound: Math.max(...ys),
+      bottomBound: Math.min(...ys),
     }
   }
 
