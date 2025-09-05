@@ -1,5 +1,9 @@
 import * as fs from 'fs';
-import { FloodZone, Zone } from "./floodZoneMap";
+import { BoundEntity, FloodZone, Zone } from "./floodZoneMap";
+
+interface Parcel extends BoundEntity {
+  id: string;
+}
 
 export default class FloodzoneFileParser {
 
@@ -23,12 +27,7 @@ export default class FloodzoneFileParser {
      } else {
         console.error("Unknown line in file starting with", components[0])
       }
-      // Step 2.3. Determine the "key" (floodZone enum, or parcel Id)
-      // Step 2.4. Determine the left, right, top, and bottom bounds of the space
-      // Step 2.5. Add that information to the list of information
-
     })
-    
   }
 
   getFloodZones() : FloodZone[] {
@@ -58,18 +57,26 @@ export default class FloodzoneFileParser {
         throw new Error("Formatted Incorrectly")
     }
 
-    const {leftBound, rightBound, topBound, bottomBound} = this.parseBoundaries(components.splice(2))
+    const bounds = this.parseBoundaries(components.splice(2))
 
     return {
-      zone,
-      leftBound,
-      rightBound,
-      topBound,
-      bottomBound
+      ...bounds,
+      zone
     }
   }
 
-  private parseBoundaries(gridComponents: string[]): {leftBound: number; rightBound: number; topBound: number; bottomBound: number} {
+  private parseParcel(components: string[]): Parcel {
+    if (components.length < 6) {
+      throw new Error("Formatted incorrectly")
+    }
+    const bounds = this.parseBoundaries(components.splice(2));
+    return {
+      ...bounds,
+      id: components[1] || '',
+    }
+  }
+
+  private parseBoundaries(gridComponents: string[]): BoundEntity {
     const xs: string[]= [];
     const ys: string[] = []
     gridComponents.forEach((xy) => {
@@ -88,4 +95,5 @@ export default class FloodzoneFileParser {
       bottomBound: Number(orderedYs[orderedYs.length - 1]),
     }
   }
+
 }

@@ -5,12 +5,15 @@ export enum Zone {
   "X"
 }
 
-export interface FloodZone {
-  zone: Zone;
+export interface BoundEntity {
   leftBound: number;
   rightBound: number;
   topBound: number;
   bottomBound: number;
+}
+
+export interface FloodZone extends BoundEntity {
+  zone: Zone;
 }
 
 export default class FloodZoneMap {
