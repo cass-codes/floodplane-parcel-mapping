@@ -1,0 +1,27 @@
+{
+  "name": "floodplane-parcel-mapping",
+  "version": "1.0.0",
+  "description": "Simple application to determine a parcels flood plane categorization",
+  "homepage": "https://github.com/cass-codes/floodplane-parcel-mapping#readme",
+  "bugs": {
+    "url": "https://github.com/cass-codes/floodplane-parcel-mapping/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cass-codes/floodplane-parcel-mapping.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "meow": "^13.2.0"
+  }
+}
