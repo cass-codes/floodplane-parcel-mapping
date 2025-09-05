@@ -9,7 +9,7 @@
     "module": "nodenext",
     "target": "esnext",
     "types": [
-      "node"
+      "node", "jest"
     ],
     // For nodejs:
     // "lib": ["esnext"],
@@ -31,8 +31,6 @@
     // "noPropertyAccessFromIndexSignature": true,
     // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
